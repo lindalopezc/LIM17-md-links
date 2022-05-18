@@ -1,17 +1,26 @@
 const {
-    checkPathAbsolute, 
     checkPathExists, 
     convertToAbsolute, 
     checkPathIsDirectory, 
-    getExtension
+    getExtension, 
+    openDirectory,
+    saveFiles,
   } = require('./index.js');
 
   const mdLinks = (path) => {
-    while (!checkPathAbsolute(path)){
-          console.log('La ruta ingresada es relativa:', path);
-          const path = convertToAbsolute(path);
-          console.log('La ruta ha sido convertida en absoluta:', path);
+    const absolutePath = convertToAbsolute(path);
+    if(checkPathExists(absolutePath)){
+      if(checkPathIsDirectory(absolutePath)){
+        const arrayChildrens = openDirectory(absolutePath);
+        return arrayChildrens ? saveFiles(arrayChildrens, absolutePath).filter((file) => getExtension(file) ==='.md') : 'Este directorio está vacío';
+      } 
+      else{
+       return getExtension(absolutePath) === '.md' ? 'Es un archivo markdown':'No es archivo markdown';
       }
-    return path;
+    }
+    else{
+      return 'La ruta ingresada no existe';
+    }
   }
-  module.exports = {mdLinks};
+
+  module.exports = {mdLinks}; 
