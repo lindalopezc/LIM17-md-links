@@ -1,36 +1,43 @@
-// module.exports = () => {
-//   // ...
-// };
 const fs = require('fs');
 const path = require('path');
 
 const convertToAbsolute = (inputPath) => path.isAbsolute(inputPath)? inputPath: path.resolve(inputPath);
 
-const checkPathExists = (inputPath) => fs.existsSync(inputPath);
+const checkPathExists = (inputPath) => fs.existsSync(convertToAbsolute(inputPath));
 
 const checkPathIsDirectory = (inputPath) => fs.statSync(inputPath).isDirectory();
 
 const getExtension = (inputPath) => path.extname(inputPath);
 
-const openDirectory = (pathDirectory) => {
-    const arrayChildrens = fs.readdirSync(pathDirectory);
-    if(arrayChildrens.length > 0){
-        return arrayChildrens;
+const readDirectory = (pathDirectory) => {
+   let directoryContent = fs.readdirSync(pathDirectory);
+    if(directoryContent.length > 0){
+        directoryContent = directoryContent.map((element) => element = path.join(pathDirectory, element));
+        return directoryContent;
     }
 }
-const saveFiles = (arrayChildrens, inputPath) => {
-    let array = arrayChildrens.map((element) => element = path.join(inputPath, element));
-    let filesArray = array.filter((element) => !checkPathIsDirectory(element));
-    let directoryArray = array.filter((element) => checkPathIsDirectory(element));
-    directoryArray.forEach(directory => {
-        let arrayGrandChild = openDirectory(directory);
-        if(arrayGrandChild){
-            filesArray = filesArray.concat(saveFiles(arrayGrandChild, directory));
+const saveFiles = (directoryContent) => {
+    let filesArray = directoryContent.filter((element) => !checkPathIsDirectory(element));
+    let directoriesArray = directoryContent.filter((element) => checkPathIsDirectory(element));
+    directoriesArray.forEach(directory => {
+        let contentOfDirectory = readDirectory(directory);
+        if(contentOfDirectory){
+            filesArray = filesArray.concat(saveFiles(contentOfDirectory));
         }
     });
     return filesArray;
 }
+const filterMdFiles = (filesArray) => {
+    const mdFilesArray =  filesArray.filter((file) => getExtension(file) ==='.md');
+    return mdFilesArray;
+}
 
 module.exports = {
- checkPathExists, convertToAbsolute, checkPathIsDirectory, getExtension, openDirectory, saveFiles
+ convertToAbsolute, 
+ checkPathExists,
+ checkPathIsDirectory, 
+ getExtension, 
+ readDirectory, 
+ saveFiles, 
+ filterMdFiles
 }

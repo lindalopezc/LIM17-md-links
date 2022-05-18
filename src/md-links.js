@@ -1,26 +1,31 @@
 const {
-    checkPathExists, 
-    convertToAbsolute, 
-    checkPathIsDirectory, 
-    getExtension, 
-    openDirectory,
-    saveFiles,
-  } = require('./index.js');
+  checkPathExists,
+  convertToAbsolute, 
+  checkPathIsDirectory, 
+  getExtension, 
+  readDirectory, 
+  saveFiles, 
+  filterMdFiles
+} = require('./index.js');
 
-  const mdLinks = (path) => {
-    const absolutePath = convertToAbsolute(path);
-    if(checkPathExists(absolutePath)){
-      if(checkPathIsDirectory(absolutePath)){
-        const arrayChildrens = openDirectory(absolutePath);
-        return arrayChildrens ? saveFiles(arrayChildrens, absolutePath).filter((file) => getExtension(file) ==='.md') : 'Este directorio está vacío';
-      } 
-      else{
-       return getExtension(absolutePath) === '.md' ? 'Es un archivo markdown':'No es archivo markdown';
+const mdLinks = (path) => {
+  if(checkPathExists(path)){
+    if(checkPathIsDirectory(path)){
+      const directoryContent = readDirectory(path);
+      if(directoryContent){
+        const filesArray = saveFiles(directoryContent);
+        return filterMdFiles(filesArray);
       }
-    }
+      else {
+        return 'Este directorio está vacío';
+      }
+    } 
     else{
-      return 'La ruta ingresada no existe';
+     return getExtension(path) === '.md' ? 'Es un archivo markdown, voy a buscar links':'No es archivo markdown';
     }
   }
-
+  else{
+    return 'La ruta ingresada no existe';
+  }
+}
   module.exports = {mdLinks}; 

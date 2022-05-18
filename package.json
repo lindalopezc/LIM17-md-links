@@ -10,7 +10,8 @@
     "test": "test"
   },
   "scripts": {
-    "test": "test"
+    "start": "node src/index.js",
+    "test": "jest --verbose --coverage"
   },
   "repository": {
     "type": "git",
