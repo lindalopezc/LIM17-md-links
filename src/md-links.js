@@ -5,7 +5,8 @@ const {
   getExtension, 
   readDirectory, 
   saveFiles, 
-  filterMdFiles
+  filterMdFiles,
+  getLinks
 } = require('./index.js');
 
 const mdLinks = (path) => {
@@ -14,7 +15,13 @@ const mdLinks = (path) => {
       const directoryContent = readDirectory(path);
       if(directoryContent){
         const filesArray = saveFiles(directoryContent);
-        return filterMdFiles(filesArray);
+        const mdFilesArray = filterMdFiles(filesArray);
+        if(mdFilesArray.length>0){
+          return getLinks(mdFilesArray);
+        }
+        else{
+          return 'No se encontró ningun archivo Markdown';
+        }
       }
       else {
         return 'Este directorio está vacío';

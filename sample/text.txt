@@ -1,0 +1,5 @@
+Peticiones HTTP con fetch 
+Fetch es el nombre de una nueva API para Javascript con la cuál podemos realizar peticiones HTTP asíncronas
+utilizando promesas y de forma que el código sea un poco más sencillo y menos verbose. 
+La forma de realizar una petición es muy sencilla, 
+básicamente se trata de llamar a fetch y pasarle por parámetro la URL de la petición a realizar.

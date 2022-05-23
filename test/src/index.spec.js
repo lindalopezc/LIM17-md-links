@@ -4,7 +4,8 @@ const { convertToAbsolute,
     getExtension, 
     readDirectory, 
     saveFiles, 
-    filterMdFiles} = require('../../src/index');
+    filterMdFiles,
+    getLinks} = require('../../src/index');
 
 describe('convertToAbsolute', ()=>{
     const pathTest1 = "LIM017-social-network\src";
@@ -108,4 +109,37 @@ describe('filterMdFiles', ()=>{
     it('Debería retornar un array con rutas de archivos de tipo Markdown', ()=>{
         expect(filterMdFiles(arrayTest1)).toEqual(arrayTest2);
     })
+    it('Debería retornar un array vacío', ()=>{
+        expect(filterMdFiles([])).toEqual([]);
+    })
 })
+
+describe('getLinks', () => {
+    const linksArrayTest = [
+        {
+        "file": "C:\\Users\\chris\\OneDrive\\Escritorio\\LIM17-md-links\\sample\\sample2\\mdfile2.md",
+        "href": "https://developer.mozilla.org/es/docs/Web/HTTP/Overview",
+        "text": "Link prueba 1",
+        },
+       {
+        "file": "C:\\Users\\chris\\OneDrive\\Escritorio\\LIM17-md-links\\sample\\sample2\\mdfile2.md",
+        "href": "https://developer.mozilla.org/es/docs/Web/HTTP/Messages",
+        "text": "Link prueba 2",
+        },
+        {
+        "file": "C:\\Users\\chris\\OneDrive\\Escritorio\\LIM17-md-links\\sample\\sample2\\mdfile2.md",
+        "href": "http://community.laboratoria.la/c/js",
+        "text": "Broken",
+        },
+      ];
+
+    it ('Debería retornar un array con todos los links del archivo .md', () => {
+      expect(getLinks(["C:\\Users\\chris\\OneDrive\\Escritorio\\LIM17-md-links\\sample\\sample2\\mdfile2.md"])).toEqual(linksArrayTest);
+    });
+    it ('Debería retornar \'undefined\' cuando el array es vacío', () => {
+      expect(getLinks([])).toBe(undefined);
+    });
+    it ('Debería retornar un array vacío cuando no hay links en el archivo .md', () => {
+        expect(getLinks(["C:\\Users\\chris\\OneDrive\\Escritorio\\LIM17-md-links\\sample\\sample2\\empty.md"])).toEqual([])
+    });
+  })

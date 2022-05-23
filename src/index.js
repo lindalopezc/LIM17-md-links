@@ -32,6 +32,33 @@ const filterMdFiles = (filesArray) => {
     return mdFilesArray;
 }
 
+const getLinks = (mdFilesArray) => {
+    const regExp = /\[(.*)\]\(((?:\/|https?:\/\/).*)\)/gi;
+    const regExpText = /\[(.*)\]/g;
+    const regExpURL = /\(((?:\/|https?:\/\/).*)\)/g;
+    let linksCharacteristicsArray = [];
+    if(mdFilesArray.length>0){
+        mdFilesArray.forEach((mdFile) => {
+            const mdFileContent = fs.readFileSync(mdFile, 'utf8');
+            const linksArray = mdFileContent.match(regExp); // return arrays
+            if (linksArray) {
+              const linksOfEachFile = linksArray.map((link) => {
+                const linksResolve = link.match(regExpURL).join().slice(1, -1); // join links and remove parentheses
+                const textResolve = link.match(regExpText).join().slice(1, -1); // remove the brackets
+                link = {
+                  href: linksResolve,
+                  text: textResolve.substring(0, 50),
+                  file: mdFile,
+                }
+                return link;
+              });
+              linksCharacteristicsArray = linksCharacteristicsArray.concat(linksOfEachFile);
+            }
+        })
+        return linksCharacteristicsArray;
+    }
+}
+
 module.exports = {
  convertToAbsolute, 
  checkPathExists,
@@ -39,5 +66,6 @@ module.exports = {
  getExtension, 
  readDirectory, 
  saveFiles, 
- filterMdFiles
+ filterMdFiles, 
+ getLinks
 }
