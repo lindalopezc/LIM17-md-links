@@ -30,8 +30,15 @@
   "bugs": {
     "url": "https://github.com/lindalopezc/LIM17-md-links/issues"
   },
-  "bin":{
+  "bin": {
     "md-links": "./src/cli.js"
   },
-  "homepage": "https://github.com/lindalopezc/LIM17-md-links#readme"
+  "homepage": "https://github.com/lindalopezc/LIM17-md-links#readme",
+  "devDependencies": {
+    "jest": "^28.1.0"
+  },
+  "dependencies": {
+    "node-fetch": "^1.7.3",
+    "node.fetch": "^1.0.0"
+  }
 }

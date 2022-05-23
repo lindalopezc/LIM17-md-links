@@ -1,5 +1,6 @@
 const fs = require('fs');
 const path = require('path');
+const fetch = require('node-fetch');
 
 const convertToAbsolute = (inputPath) => path.isAbsolute(inputPath)? inputPath: path.resolve(inputPath);
 
@@ -13,9 +14,10 @@ const readDirectory = (pathDirectory) => {
    let directoryContent = fs.readdirSync(pathDirectory);
     if(directoryContent.length > 0){
         directoryContent = directoryContent.map((element) => element = path.join(pathDirectory, element));
-        return directoryContent;
+        return directoryContent; // array con hijos del directorio
     }
 }
+
 const saveFiles = (directoryContent) => {
     let filesArray = directoryContent.filter((element) => !checkPathIsDirectory(element));
     let directoriesArray = directoryContent.filter((element) => checkPathIsDirectory(element));
@@ -27,6 +29,7 @@ const saveFiles = (directoryContent) => {
     });
     return filesArray;
 }
+
 const filterMdFiles = (filesArray) => {
     const mdFilesArray =  filesArray.filter((file) => getExtension(file) ==='.md');
     return mdFilesArray;
@@ -36,13 +39,13 @@ const getLinks = (mdFilesArray) => {
     const regExp = /\[(.*)\]\(((?:\/|https?:\/\/).*)\)/gi;
     const regExpText = /\[(.*)\]/g;
     const regExpURL = /\(((?:\/|https?:\/\/).*)\)/g;
-    let linksCharacteristicsArray = [];
+    let linksArray = [];
     if(mdFilesArray.length>0){
         mdFilesArray.forEach((mdFile) => {
             const mdFileContent = fs.readFileSync(mdFile, 'utf8');
-            const linksArray = mdFileContent.match(regExp); // return arrays
-            if (linksArray) {
-              const linksOfEachFile = linksArray.map((link) => {
+            const arrayWithLinks = mdFileContent.match(regExp); // return arrays
+            if (arrayWithLinks) {
+              const linksOfEachFile = arrayWithLinks.map((link) => {
                 const linksResolve = link.match(regExpURL).join().slice(1, -1); // join links and remove parentheses
                 const textResolve = link.match(regExpText).join().slice(1, -1); // remove the brackets
                 link = {
@@ -52,12 +55,40 @@ const getLinks = (mdFilesArray) => {
                 }
                 return link;
               });
-              linksCharacteristicsArray = linksCharacteristicsArray.concat(linksOfEachFile);
+              linksArray = linksArray.concat(linksOfEachFile);
             }
         })
-        return linksCharacteristicsArray;
+        return linksArray;
     }
 }
+
+const getStatusLink = (linksArray) => {
+    const array = linksArray.map((element) => {
+      const fetchPromise = fetch(element.href)
+      .then((response) => {
+        const statusCode = response.status;
+        const msg = response.status >= 200 && response.status <= 299 ? response.statusText : 'FAIL';
+        return {
+          href: element.href,
+          text: element.text,
+          file: element.file,
+          status: statusCode,
+          message: msg,
+        };
+      })
+      .catch(() => {
+        return {
+          href: element.href,
+          text: element.text,
+          file: element.file,
+          status: "Failed request",
+          message: 'FAIL',
+        }
+      });
+      return fetchPromise;
+    });
+    return Promise.all(array); // resolves to an array of the results of the input promises
+};
 
 module.exports = {
  convertToAbsolute, 
@@ -67,5 +98,6 @@ module.exports = {
  readDirectory, 
  saveFiles, 
  filterMdFiles, 
- getLinks
+ getLinks,
+ getStatusLink
 }
