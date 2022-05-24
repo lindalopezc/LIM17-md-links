@@ -14,7 +14,7 @@ const readDirectory = (pathDirectory) => {
    let directoryContent = fs.readdirSync(pathDirectory);
     if(directoryContent.length > 0){
         directoryContent = directoryContent.map((element) => element = path.join(pathDirectory, element));
-        return directoryContent; // array con hijos del directorio
+        return directoryContent; 
     }
 }
 
@@ -66,28 +66,27 @@ const getStatusLink = (linksArray) => {
     const array = linksArray.map((element) => {
       const fetchPromise = fetch(element.href)
       .then((response) => {
-        const statusCode = response.status;
-        const msg = response.status >= 200 && response.status <= 299 ? response.statusText : 'FAIL';
+        const msg = response.status >= 200 && response.status <= 299 ? 'ok' : 'fail';
         return {
           href: element.href,
           text: element.text,
           file: element.file,
-          status: statusCode,
+          status: response.status,
           message: msg,
         };
       })
-      .catch(() => {
+      .catch((err) => {
         return {
           href: element.href,
           text: element.text,
           file: element.file,
-          status: "Failed request",
-          message: 'FAIL',
+          status: 'Failed request',
+          message: 'fail',
         }
       });
       return fetchPromise;
     });
-    return Promise.all(array); // resolves to an array of the results of the input promises
+    return Promise.all(array); // retorna un array con los resultados de cada promesa
 };
 
 module.exports = {
