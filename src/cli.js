@@ -2,25 +2,40 @@
 
 const {mdLinks} = require('./md-links.js');
 
-const inputPath = process.argv[2];
-const options = [process.argv[3], process.argv[4]];
+const inputsArray = process.argv;
+const inputPath = inputsArray[2];
+const options = [inputsArray[3], inputsArray[4]];
 
 if (inputPath){
-    if(options.includes('--validate') && options.includes('--state')){
-        mdLinks(inputPath, {validate:true, state: true})
-        .then(resolve => console.log(resolve));
+    if(inputsArray.length === 3){
+        mdLinks(inputPath, {validate: false, stats: false})
+        .then(resolve => console.log(resolve))
+        .catch(error => console.log(error));
     }
-    else if(options.includes('--validate')){
-        mdLinks(inputPath, {validate:true, state: false})
-        .then(resolve => console.log(resolve));
-    }
-    else if(options.includes('--state')){
-        mdLinks(inputPath, {validate:false, state: true})
-        .then(resolve => console.log(resolve));
+    else if(inputsArray.length === 4){
+        if(options.includes('--validate')){
+            mdLinks(inputPath, {validate: true, stats: false})
+            .then(resolve => console.log(resolve))
+            .catch(error => console.log(error));
+        }
+        else if(options.includes('--state')){
+            mdLinks(inputPath, {validate: false, stats: true})
+            .then(resolve => console.log(resolve))
+            .catch(error => console.log(error));
+        }
+        else{
+            console.log('La opción ingresada no es válida. Opciones permitidas: --validate o --stats')
+        }
     }
     else{
-        mdLinks(inputPath, {validate:false, state: false})
-        .then(resolve => console.log(resolve));
+        if(options.includes('--validate') && options.includes('--stats')){
+            mdLinks(inputPath, {validate: true, stats: true})
+            .then(resolve => console.log(resolve))
+            .catch(error => console.log(error));
+        }
+        else{
+            console.log('Hay opciones ingresadas no válidas. Opciones permitidas: --validate o --stats')
+        }
     }
 }
 else{

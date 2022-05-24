@@ -9,8 +9,8 @@ const {
   getStatusLink
 } = require('./index.js');
 
-const mdLinks = (path, options = {validate: false, state: false}) => {
-  return new Promise((resolve, reject)=>{
+const mdLinks = (path, options = {validate: false, stats: false}) => {
+  return new Promise((resolve, reject) => {
     if(checkPathExists(path)){
       let linksArray;
       if(checkPathIsDirectory(path)){
@@ -20,25 +20,27 @@ const mdLinks = (path, options = {validate: false, state: false}) => {
           const mdFilesArray = filterMdFiles(filesArray);
           if(mdFilesArray.length>0){
             linksArray = getLinks(mdFilesArray);
-            if(options.validate && options.state){ //validate: true, state: true
+            
+            if(options.validate && options.stats){ //validate: true, stats: true
               getStatusLink(linksArray)
               .then(response => {
                 const uniqueLinks = [...new Set(response.map(element => element.href))]; 
-                const brokensLinks = response.filter((element)=> element.message === 'FAIL');
+                const brokensLinks = response.filter((element)=> element.ok === 'fail');
                resolve(`Total: ${response.length} \nUnique: ${uniqueLinks.length} \nBroken: ${brokensLinks.length}`);
               });
             }
-            else if(options.validate && !options.state){ //validate: true, state: false
-              getStatusLink(linksArray).then(response => resolve(response));
+            else if(options.validate && !options.stats){ //validate: true, stats: false
+              getStatusLink(linksArray)
+              .then(response => resolve(response));
             }
-            else if(!options.validate && options.state){ //validate: false, state: true
+            else if(!options.validate && options.stats){ //validate: false, stats: true
               getStatusLink(linksArray)
               .then(response => {
                 const uniqueLinks = [...new Set(response.map(element => element.href))]; 
                resolve(`Total: ${response.length} \n Unique: ${uniqueLinks.length}`);
               });
             }
-            else{ //Validate: false, state: false
+            else{ //Validate: false, stats: false
               resolve(linksArray);
             }
           }
@@ -53,7 +55,7 @@ const mdLinks = (path, options = {validate: false, state: false}) => {
       else{
         if(getExtension(path)==='.md'){
           linksArray = getLinks([path]);
-          if(options.validate){ //validate:true, state:false
+          if(options.validate){ //validate:true, stats:false
             getStatusLink(linksArray).then(response => resolve(response));
           }
           else{ //validate:false

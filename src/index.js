@@ -43,14 +43,14 @@ const getLinks = (mdFilesArray) => {
     if(mdFilesArray.length>0){
         mdFilesArray.forEach((mdFile) => {
             const mdFileContent = fs.readFileSync(mdFile, 'utf8');
-            const arrayWithLinks = mdFileContent.match(regExp); // return arrays
+            const arrayWithLinks = mdFileContent.match(regExp);
             if (arrayWithLinks) {
               const linksOfEachFile = arrayWithLinks.map((link) => {
                 const linksResolve = link.match(regExpURL).join().slice(1, -1); // join links and remove parentheses
                 const textResolve = link.match(regExpText).join().slice(1, -1); // remove the brackets
                 link = {
                   href: linksResolve,
-                  text: textResolve.substring(0, 50),
+                  text: textResolve,
                   file: mdFile,
                 }
                 return link;
@@ -72,16 +72,16 @@ const getStatusLink = (linksArray) => {
           text: element.text,
           file: element.file,
           status: response.status,
-          message: msg,
+          ok: msg,
         };
       })
-      .catch((err) => {
+      .catch(() => {
         return {
           href: element.href,
           text: element.text,
           file: element.file,
           status: 'Failed request',
-          message: 'fail',
+          ok: 'fail',
         }
       });
       return fetchPromise;
