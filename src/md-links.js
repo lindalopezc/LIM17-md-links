@@ -17,42 +17,41 @@ const mdLinks = (path, options = { validate: false, stats: false }) => new Promi
     let linksArray;
     if (checkPathIsDirectory(path)) {
       const directoryContent = readDirectory(path);
-      if (directoryContent) {
+      if (directoryContent.length > 0) {
         const filesArray = saveFiles(directoryContent);
         const mdFilesArray = filterMdFiles(filesArray);
         if (mdFilesArray.length > 0) {
           linksArray = getLinks(mdFilesArray);
-          if (options.validate && options.stats) { // validate: true, stats: true
-            getStatusLink(linksArray)
-              .then((response) => resolve(getStats(response, options)));
-          } else if (options.validate && !options.stats) { // validate: true, stats: false
-            getStatusLink(linksArray)
-              .then((response) => resolve(response));
-          } else if (!options.validate && options.stats) { // validate: false, stats: true
-            getStatusLink(linksArray)
-              .then((response) => resolve(getStats(response, options)));
-          } else { // Validate: false, stats: false
-            resolve(linksArray);
-          }
         } else {
-          reject('No se encontró ningun archivo Markdown');
+          reject('No se encontró ningun archivo Markdown.');
         }
       } else {
-        reject('Este directorio está vacío');
+        reject('Este directorio se encuentra vacío.');
       }
     } else if (getExtension(path) === '.md') {
       linksArray = getLinks([path]);
-      if (options.validate && !options.stats) { // validate:true, stats:false
+    } else {
+      reject('La ruta ingresada no contiene un archivo markdown(.md)');
+    }
+    if (linksArray.length > 0) {
+      if (options.validate && options.stats) { // validate: true, stats: true
+        getStatusLink(linksArray)
+          .then((response) => resolve(getStats(response, options)));
+      } else if (options.validate && !options.stats) { // validate: true, stats: false
         getStatusLink(linksArray)
           .then((response) => resolve(response));
-      } else { // validate:false
+      } else if (!options.validate && options.stats) { // validate: false, stats: true
+        getStatusLink(linksArray)
+          .then((response) => resolve(getStats(response, options)));
+      } else { // Validate: false, stats: false
         resolve(linksArray);
       }
     } else {
-      reject('La ruta ingresada no contiene un archivo markdown(.md)');
+      reject('No se encontró ningún link.');
     }
   } else {
     reject('La ruta ingresada no existe. Ingrese nuevamente una ruta.');
   }
 });
+
 module.exports = { mdLinks };
