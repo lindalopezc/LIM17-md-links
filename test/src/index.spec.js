@@ -9,11 +9,13 @@ const {
   saveFiles,
   filterMdFiles,
   getLinks,
+  getStatusLink,
+  getStats,
 } = require('../../src/index');
 
 describe('convertToAbsolute', () => {
   const pathTest1 = 'LIM017-social-network\\src';
-  const pathTest2 = 'C:\\Users\\chris\\OneDrive\\Escritorio\\LIM17-md-links\\LIM017-social-networksrc';
+  const pathTest2 = 'C:\\Users\\chris\\OneDrive\\Escritorio\\LIM17-md-links\\LIM017-social-network\\src';
 
   it('Debería convertir una ruta relativa en absoluta', () => {
     expect(convertToAbsolute(pathTest1)).toBe(pathTest2);
@@ -140,10 +142,67 @@ describe('getLinks', () => {
   it('Debería retornar un array con todos los links del archivo .md', () => {
     expect(getLinks(['C:\\Users\\chris\\OneDrive\\Escritorio\\LIM17-md-links\\sample\\sample2\\mdfile2.md'])).toEqual(linksArrayTest);
   });
-  it('Debería retornar \'undefined\' cuando el array es vacío', () => {
-    expect(getLinks([])).toBe(undefined);
-  });
   it('Debería retornar un array vacío cuando no hay links en el archivo .md', () => {
     expect(getLinks(['C:\\Users\\chris\\OneDrive\\Escritorio\\LIM17-md-links\\sample\\sample2\\empty.md'])).toEqual([]);
+  });
+});
+
+describe('getStatusLink', () => {
+  const arrayTest1 = [
+    {
+      href: 'https://developer.mozilla.org/es/docs/Web/HTTP/Overview',
+      text: 'Link prueba 1',
+      file: 'C:\\Users\\chris\\OneDrive\\Escritorio\\LIM17-md-links\\sample\\sample2\\mdfile2.md',
+    },
+  ];
+  const arrayTest2 = [
+    {
+      href: 'http://community.laboratoria.la/c/js',
+      text: 'Broken',
+      file: 'C:\\Users\\chris\\OneDrive\\Escritorio\\LIM17-md-links\\sample\\sample2\\mdfile2.md',
+    },
+  ];
+  it('Debería retornar un array con file, href, ok, status y text del link', () => getStatusLink(arrayTest1)
+    .then((response) => {
+      const statusLink = [
+        {
+          href: 'https://developer.mozilla.org/es/docs/Web/HTTP/Overview',
+          text: 'Link prueba 1',
+          file: 'C:\\Users\\chris\\OneDrive\\Escritorio\\LIM17-md-links\\sample\\sample2\\mdfile2.md',
+          status: 200,
+          ok: 'ok',
+        },
+      ];
+      expect(response).toEqual(statusLink);
+    }));
+  expect.assertions(1);
+  it('Debería fallar la petición de fetch', () => getStatusLink(arrayTest2)
+    .catch((error) => {
+      expect(error).toBe('Failed request'); // debería fallar
+    }));
+});
+
+describe('getStats', () => {
+  const arrayTest = [{
+    href: 'https://developer.mozilla.org/es/docs/Web/HTTP/Overview',
+    text: 'Link prueba 1',
+    file: 'C:\\Users\\chris\\OneDrive\\Escritorio\\LIM17-md-links\\sample\\sample2\\mdfile2.md',
+    status: 200,
+    ok: 'ok',
+  },
+  {
+    href: 'https://developer.mozilla.org/es/docs.hidje',
+    text: 'Link prueba 2',
+    file: 'C:\\Users\\chris\\OneDrive\\Escritorio\\LIM17-md-links\\sample\\sample2\\mdfile2.md',
+    status: 400,
+    ok: 'fail',
+  }];
+  const statsTest1 = 'Total: 2 \nUnique: 2 \nBroken: 1';
+  const statsTest2 = 'Total: 2 \nUnique: 2';
+  it('Debería retornar estadísticas Total, Unique y Broken', () => {
+    expect(getStats(arrayTest, { validate: true, stats: true })).toBe(statsTest1);
+  });
+  it('Debería retornar estadísticas Total y Unique', () => {
+    expect(getStats(arrayTest, { validate: false, stats: true })).toBe(statsTest2);
   });
 });

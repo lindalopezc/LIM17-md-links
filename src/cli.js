@@ -17,7 +17,7 @@ if (inputPath) {
       mdLinks(inputPath, { validate: true, stats: false })
         .then((resolve) => console.log(resolve))
         .catch((error) => console.log(error));
-    } else if (options.includes('--state')) {
+    } else if (options.includes('--stats')) {
       mdLinks(inputPath, { validate: false, stats: true })
         .then((resolve) => console.log(resolve))
         .catch((error) => console.log(error));
