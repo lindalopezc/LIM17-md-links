@@ -87,6 +87,17 @@ const getStatusLink = (linksArray) => {
   return Promise.all(array); // retorna un array con los resultados de cada promesa
 };
 
+const getStats = (linksArray, options) => {
+  if (options.validate) { // validate: true, stats: true
+    const uniqueLinks = [...new Set(linksArray.map((element) => element.href))];
+    const brokensLinks = linksArray.filter((element) => element.ok === 'fail');
+    return `Total: ${linksArray.length} \nUnique: ${uniqueLinks.length} \nBroken: ${brokensLinks.length}`;
+  }
+  // validate: false, stats: true
+  const uniqueLinks = [...new Set(linksArray.map((element) => element.href))];
+  return `Total: ${linksArray.length} \nUnique: ${uniqueLinks.length}`;
+};
+
 module.exports = {
   convertToAbsolute,
   checkPathExists,
@@ -97,4 +108,5 @@ module.exports = {
   filterMdFiles,
   getLinks,
   getStatusLink,
+  getStats,
 };
