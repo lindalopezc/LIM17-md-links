@@ -1,66 +1,19 @@
-# Proyecto: Markdown Links
+# 📎Proyecto: MD-Links
 
 ## 1. Introducción
 
-[Markdown](https://es.wikipedia.org/wiki/Markdown) es un lenguaje de marcado
-ligero muy popular entre developers. Es usado en muchísimas plataformas que
-manejan texto plano (GitHub, foros, blogs, ...), y es muy común
-encontrar varios archivos en ese formato en cualquier tipo de repositorio
-(empezando por el tradicional `README.md`).
+**MD-Links** es una librería para JavaScript que le permite validar las URLs que se encuentren dentro de archivos Markdown(.md), el cual es un lenguaje de marcado ligero muy popular entre developers. Es usado en muchísimas plataformas que manejan texto plano (GitHub, foros, blogs, ...), y es muy común encontrar varios archivos en ese formato en cualquier tipo de repositorio.
+Esta librería te permitirá obtener: estado de los enlaces, enlaces totales, enlaces únicos y enlaces rotos.📎💻
 
-Estos archivos `Markdown` normalmente contienen _links_ (vínculos/ligas) que
-muchas veces están rotos o ya no son válidos y eso perjudica mucho el valor de
-la información que se quiere compartir.
+![md-links](https://github.com/lindalopezc/LIM17-md-links/blob/main/img/links-img.jpg)
 
-Dentro de una comunidad de código abierto, nos han propuesto crear una
-herramienta usando [Node.js](https://nodejs.org/), que lea y analice archivos
-en formato `Markdown`, para verificar los links que contengan y reportar
-algunas estadísticas.
+## 2. Instrucciones de uso
 
-![md-links](https://user-images.githubusercontent.com/110297/42118443-b7a5f1f0-7bc8-11e8-96ad-9cc5593715a6.jpg)
+Estas instrucciones le permitirán instalar la biblioteca en su computadora local para el desarrollo.
+...
+Las rutas ingresadas pueden ser relativas o absolutas y las opciones que puede usar son: --stats, --validate o usar ambas juntas: --stats --validate.
 
-## 2. Resumen del proyecto
-
-En este proyecto crearás una herramienta de línea de comando (CLI) así como tu
-propia librería (o biblioteca - library) en JavaScript.
-
-En esta oportunidad nos alejamos un poco del navegador para construir un
-programa que se ejecute usando Node.js. Aprenderemos sobre procesos
-(`process.env`, `process.args`, ...), cómo interactuar con el sistema archivos,
-cómo hacer consultas de red, etc.
-
-[Node.js](https://nodejs.org/es/) es un entorno de ejecución para JavaScript
-construido con el [motor de JavaScript V8 de Chrome](https://developers.google.com/v8/).
-Esto nos va a permitir ejecutar JavaScript en el entorno del sistema operativo,
-ya sea tu máquina o un servidor, lo cual nos abre las puertas para poder
-interactuar con el sistema en sí, archivos, redes, ...
-
-Diseñar tu propia librería es una experiencia fundamental para cualquier
-desarrollador porque que te obliga a pensar en la interfaz (API) de tus
-_módulos_ y cómo será usado por otros developers. Debes tener especial
-consideración en peculiaridades del lenguaje, convenciones y buenas prácticas.
-
-### 1) JavaScript API
-
-El módulo debe poder **importarse** en otros scripts de Node.js y debe ofrecer la
-siguiente interfaz:
-
-#### `mdLinks(path, options)`
-
-##### Argumentos
-
-* `path`: Ruta **absoluta** o **relativa** al **archivo** o **directorio**.
-Si la ruta pasada es relativa, debe resolverse como relativa al directorio
-desde donde se invoca node - _current working directory_).
-* `options`: Un objeto con **únicamente** la siguiente propiedad:
-  - `validate`: Booleano que determina si se desea validar los links
-    encontrados.
-
-##### Valor de retorno
-
-La función debe **retornar una promesa** (`Promise`) que **resuelva a un arreglo**
-(`Array`) de objetos (`Object`), donde cada objeto representa un link y contiene
-las siguientes propiedades
+### Valores de retorno
 
 Con `validate:false` :
 
@@ -76,40 +29,7 @@ Con `validate:true` :
 * `status`: Código de respuesta HTTP.
 * `ok`: Mensaje `fail` en caso de fallo u `ok` en caso de éxito.
 
-#### Ejemplo (resultados como comentarios)
 
-```js
-const mdLinks = require("md-links");
-
-mdLinks("./some/example.md")
-  .then(links => {
-    // => [{ href, text, file }, ...]
-  })
-  .catch(console.error);
-
-mdLinks("./some/example.md", { validate: true })
-  .then(links => {
-    // => [{ href, text, file, status, ok }, ...]
-  })
-  .catch(console.error);
-
-mdLinks("./some/dir")
-  .then(links => {
-    // => [{ href, text, file }, ...]
-  })
-  .catch(console.error);
-```
-
-### 2) CLI (Command Line Interface - Interfaz de Línea de Comando)
-
-El ejecutable de nuestra aplicación debe poder ejecutarse de la siguiente
-manera a través de la **terminal**:
-
-`md-links <path-to-file> [options]`
-
-Por ejemplo:
-
-```sh
 $ md-links ./some/example.md
 ./some/example.md http://algo.com/2/3/ Link a algo
 ./some/example.md https://otra-cosa.net/algun-doc.html algún doc
@@ -163,6 +83,11 @@ Total: 3
 Unique: 3
 Broken: 1
 ```
+
+## Proceso de desarrollo:
+
+Como punto de partida para la ejecución de este proyecto, se diseñó un diagrama de flujo para organizar el flujo de la API.
+![diagrama-flujo](https://github.com/lindalopezc/LIM17-md-links/blob/main/img/MD-Links%20Linda%20L%C3%B3pez.jpg)
 
 ## 6. Entregables
 
