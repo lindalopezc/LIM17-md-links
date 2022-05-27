@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+/* eslint-disable no-dupe-else-if */
 /* eslint-disable no-console */
 
 const { mdLinks } = require('./md-links');
@@ -24,7 +25,7 @@ if (inputPath) {
     } else {
       console.log('La opción ingresada no es válida. Opciones permitidas: --validate o --stats');
     }
-  } else if (options.includes('--validate') && options.includes('--stats')) {
+  } else if (inputsArray.length === 5 && options.includes('--validate') && options.includes('--stats')) {
     mdLinks(inputPath, { validate: true, stats: true })
       .then((resolve) => console.log(resolve))
       .catch((error) => console.log(error));
