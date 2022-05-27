@@ -51,6 +51,7 @@ Los valores de retorno son:
 * `ok`: Mensaje `fail` en caso de fallo u `ok` en caso de éxito.
 
 *Ejemplo:*
+
 ![md-links](https://github.com/lindalopezc/LIM17-md-links/blob/main/img/ejemplo2.png)
 
 #### Caso 3:
@@ -66,6 +67,7 @@ Los valores de retorno son:
 * `Unique`: total de links únicos.
 
 *Ejemplo:*
+
 ![md-links](https://github.com/lindalopezc/LIM17-md-links/blob/main/img/ejemplo3.png)
 
 #### Caso 4:
@@ -87,6 +89,7 @@ Los valores de retorno son:
 * `Broken`: total de links rotos.
 
 *Ejemplo:*
+
 ![md-links](https://github.com/lindalopezc/LIM17-md-links/blob/main/img/ejemplo4.png)
 
 ## 📍3. Proceso de desarrollo:
@@ -95,10 +98,10 @@ Como punto de partida para la ejecución de este proyecto, se diseñó un diagra
 ![diagrama-flujo](https://github.com/lindalopezc/LIM17-md-links/blob/main/img/MD-Links%20Linda%20L%C3%B3pez.jpg)
 
 Se utilizó las siguientes herramientas:
--[Node.js](https://nodejs.org/en/)-Usado para crear la librería.
--[npm](https://www.npmjs.com/)-Despliegue de módulo.
--[chalk](https://www.npmjs.com/package/chalk/v/4.1.0)-Usado para dar estilos en la terminal.
--[jest](https://jestjs.io/docs/api)-Testing de funcionalidad.
+- [Node.js](https://nodejs.org/en/) - Usado para crear la librería.
+- [npm](https://www.npmjs.com/) - Despliegue de módulo.
+- [chalk](https://www.npmjs.com/package/chalk/v/4.1.0) - Usado para dar estilos en la terminal.
+- [jest](https://jestjs.io/docs/api) - Testing de funcionalidad.
 
 ## 📍 Autora:
 [Linda López Ramos](https://github.com/lindalopezc)💁🏻‍♀️
