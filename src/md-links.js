@@ -23,7 +23,7 @@ const mdLinks = (path, options = { validate: false, stats: false }) => new Promi
         if (mdFilesArray.length > 0) {
           linksArray = getLinks(mdFilesArray);
         } else {
-          reject('No se encontró ningun archivo Markdown.');
+          reject('No se encontró ningun archivo Markdown(.md)');
         }
       } else {
         reject('Este directorio se encuentra vacío.');
@@ -31,7 +31,7 @@ const mdLinks = (path, options = { validate: false, stats: false }) => new Promi
     } else if (getExtension(path) === '.md') {
       linksArray = getLinks([path]);
     } else {
-      reject('La ruta ingresada no contiene un archivo markdown(.md)');
+      reject('La ruta ingresada no contiene un archivo Markdown(.md)');
     }
     if (linksArray.length > 0) {
       if (options.validate && options.stats) { // validate: true, stats: true

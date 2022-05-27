@@ -1,3 +1,5 @@
+/* eslint-disable jest/no-conditional-expect */
+/* eslint-disable prefer-promise-reject-errors */
 /* eslint-disable no-console */
 /* eslint-disable jest/no-commented-out-tests */
 /* eslint-disable max-len */
@@ -17,7 +19,7 @@ const {
 } = require('../../src/index');
 
 describe('convertToAbsolute', () => {
-  const pathTest1 = 'sample\\sample3';
+  const pathTest1 = 'sample/sample3';
   const pathTest2 = 'C:\\Users\\chris\\OneDrive\\Escritorio\\LIM17-md-links\\sample\\sample3';
 
   it('Debería convertir una ruta relativa en absoluta', () => {
@@ -26,8 +28,8 @@ describe('convertToAbsolute', () => {
 });
 
 describe('checkPathExists', () => {
-  const pathTest1 = 'sample\\sample2';
-  const pathTest2 = 'src\\hi.js';
+  const pathTest1 = 'sample/sample2';
+  const pathTest2 = 'src/hi.js';
 
   it('Debería retornar true si la ruta existe', () => {
     expect(checkPathExists(pathTest1)).toBe(true);
@@ -38,8 +40,8 @@ describe('checkPathExists', () => {
 });
 
 describe('checkPathIsDirectory', () => {
-  const pathTest1 = 'C:\\Users\\chris\\OneDrive\\Escritorio\\LIM17-md-links\\sample\\sample3';
-  const pathTest2 = 'C:\\Users\\chris\\OneDrive\\Escritorio\\LIM17-md-links\\src\\index.js';
+  const pathTest1 = 'C:/Users/chris/OneDrive/Escritorio/LIM17-md-links/sample/sample3';
+  const pathTest2 = 'C:/Users/chris/OneDrive/Escritorio/LIM17-md-links/src/index.js';
 
   it('Debería retornar true si la ruta es un directorio', () => {
     expect(checkPathIsDirectory(pathTest1)).toBe(true);
@@ -50,8 +52,8 @@ describe('checkPathIsDirectory', () => {
 });
 
 describe('getExtension', () => {
-  const pathTest1 = 'C:\\Users\\chris\\OneDrive\\Escritorio\\LIM17-md-links\\img\\MD-Links Linda López.jpg';
-  const pathTest2 = 'C:\\Users\\chris\\OneDrive\\Escritorio\\LIM17-md-links\\src\\index.js';
+  const pathTest1 = 'C:/Users/chris/OneDrive/Escritorio/LIM17-md-links/img/MD-Links Linda López.jpg';
+  const pathTest2 = 'C:/Users/chris/OneDrive/Escritorio/LIM17-md-links/src/index.js';
 
   it('Debería retornar .jpg', () => {
     expect(getExtension(pathTest1)).toBe('.jpg');
@@ -62,25 +64,18 @@ describe('getExtension', () => {
 });
 
 describe('readDirectory', () => {
-  const pathTest1 = 'C:\\Users\\chris\\OneDrive\\Escritorio\\LIM17-md-links\\sample';
-  const arrayTest1 = [
-    'C:\\Users\\chris\\OneDrive\\Escritorio\\LIM17-md-links\\sample\\mdfile.md',
-    'C:\\Users\\chris\\OneDrive\\Escritorio\\LIM17-md-links\\sample\\sample2',
-    'C:\\Users\\chris\\OneDrive\\Escritorio\\LIM17-md-links\\sample\\sample3',
-    'C:\\Users\\chris\\OneDrive\\Escritorio\\LIM17-md-links\\sample\\text.txt',
-  ];
-
+  const pathTest1 = 'C:/Users/chris/OneDrive/Escritorio/LIM17-md-links/sample';
   it('Debería retornar un array con 4 elementos', () => {
-    expect(readDirectory(pathTest1)).toEqual(arrayTest1);
+    expect(readDirectory(pathTest1).length).toBe(4);
   });
 });
 
 describe('saveFiles', () => {
   const arrayTest1 = [
-    'C:\\Users\\chris\\OneDrive\\Escritorio\\LIM17-md-links\\sample\\sample2',
-    'C:\\Users\\chris\\OneDrive\\Escritorio\\LIM17-md-links\\sample\\sample3',
-    'C:\\Users\\chris\\OneDrive\\Escritorio\\LIM17-md-links\\sample\\mdfile.md',
-    'C:\\Users\\chris\\OneDrive\\Escritorio\\LIM17-md-links\\sample\\text.txt',
+    'C:/Users/chris/OneDrive/Escritorio/LIM17-md-links/sample/sample2',
+    'C:/Users/chris/OneDrive/Escritorio/LIM17-md-links/sample/sample3',
+    'C:/Users/chris/OneDrive/Escritorio/LIM17-md-links/sample/mdfile.md',
+    'C:/Users/chris/OneDrive/Escritorio/LIM17-md-links/sample/text.txt',
   ];
 
   it('Debería retornar un array con 5 archivos', () => {
@@ -90,10 +85,10 @@ describe('saveFiles', () => {
 
 describe('filterMdFiles', () => {
   const arrayTest1 = [
-    'C:\\Users\\chris\\OneDrive\\Escritorio\\LIM17-md-links\\sample\\sample2',
-    'C:\\Users\\chris\\OneDrive\\Escritorio\\LIM17-md-links\\sample\\sample3',
-    'C:\\Users\\chris\\OneDrive\\Escritorio\\LIM17-md-links\\sample\\mdfile.md',
-    'C:\\Users\\chris\\OneDrive\\Escritorio\\LIM17-md-links\\sample\\text.txt',
+    'C:/Users/chris/OneDrive/Escritorio/LIM17-md-links/sample/sample2',
+    'C:/Users/chris/OneDrive/Escritorio/LIM17-md-links/sample/sample3',
+    'C:/Users/chris/OneDrive/Escritorio/LIM17-md-links/sample/mdfile.md',
+    'C:/Users/chris/OneDrive/Escritorio/LIM17-md-links/sample/text.txt',
   ];
 
   it('Debería retornar 4 archivos de tipo Markdown', () => {
@@ -107,27 +102,27 @@ describe('filterMdFiles', () => {
 describe('getLinks', () => {
   const linksArrayTest = [
     {
-      file: 'C:\\Users\\chris\\OneDrive\\Escritorio\\LIM17-md-links\\sample\\sample2\\mdfile2.md',
+      file: './mdfile2.md',
       href: 'https://developer.mozilla.org/es/docs/Web/HTTP/Overview',
       text: 'Link prueba 1',
     },
     {
-      file: 'C:\\Users\\chris\\OneDrive\\Escritorio\\LIM17-md-links\\sample\\sample2\\mdfile2.md',
+      file: './mdfile2.md',
       href: 'https://developer.mozilla.org/es/docs/Web/HTTP/Messages',
       text: 'Link prueba 2',
     },
     {
-      file: 'C:\\Users\\chris\\OneDrive\\Escritorio\\LIM17-md-links\\sample\\sample2\\mdfile2.md',
+      file: './mdfile2.md',
       href: 'http://community.laboratoria.la/c/js',
       text: 'Broken',
     },
   ];
 
   it('Debería retornar un array con todos los links del archivo .md', () => {
-    expect(getLinks(['C:\\Users\\chris\\OneDrive\\Escritorio\\LIM17-md-links\\sample\\sample2\\mdfile2.md'])).toEqual(linksArrayTest);
+    expect(getLinks(['C:/Users/chris/OneDrive/Escritorio/LIM17-md-links/sample/sample2/mdfile2.md'])).toEqual(linksArrayTest);
   });
   it('Debería retornar un array vacío cuando no hay links en el archivo .md', () => {
-    expect(getLinks(['C:\\Users\\chris\\OneDrive\\Escritorio\\LIM17-md-links\\sample\\sample2\\empty.md'])).toEqual([]);
+    expect(getLinks(['C:/Users/chris/OneDrive/Escritorio/LIM17-md-links/sample/sample2/empty.md'])).toEqual([]);
   });
 });
 
@@ -141,38 +136,87 @@ describe('getStatusLink', () => {
       ok: 'ok',
     },
   ];
-
   const arrayTest2 = [
+    {
+      href: 'https://developer.mozilla.org/pruebalink',
+      text: 'Link prueba 1',
+      file: 'C:/Users/chris/OneDrive/Escritorio/LIM17-md-links/sample/sample2/mdfile2.md',
+      status: 404,
+      ok: 'fail',
+    },
+  ];
+  const arrayTest3 = [
+    {
+      href: 'https://developer.mozilla.org/lalala',
+      text: 'Link prueba 1',
+      file: 'C:/Users/chris/OneDrive/Escritorio/LIM17-md-links/sample/sample2/mdfile2.md',
+      status: 500,
+      ok: 'fail',
+    },
+  ];
+  const arrayTest4 = [
     {
       href: 'http://community.laboratoria.la/c/js',
       text: 'Broken',
-      file: 'C:\\Users\\chris\\OneDrive\\Escritorio\\LIM17-md-links\\sample\\sample2\\mdfile2.md',
+      file: 'C:/Users/chris/OneDrive/Escritorio/LIM17-md-links/sample/sample2/mdfile2.md',
       status: 'Failed request',
       ok: 'fail',
     },
   ];
 
-  const response1 = {
-    status: 200,
-    ok: 'ok',
-  };
-
-  const response2 = {
-    status: 'Failed request',
-    ok: 'fail',
-  };
-
-  it('Debería retornar las propiedades href, text, file, status y ok de un link', () => {
-    fetch.mockImplementation(() => Promise.resolve(response1));
-    return getStatusLink(arrayTest1).then((data) => {
+  it('Debería retornar las propiedades href, text, file, status y ok de un link 200', () => {
+    fetch.mockImplementation(() => Promise.resolve({
+      status: 200,
+      ok: 'ok',
+    }));
+    return getStatusLink([{
+      href: 'https://developer.mozilla.org/es/docs/Web/HTTP/Overview',
+      text: 'Link prueba 1',
+      file: 'C:/Users/chris/OneDrive/Escritorio/LIM17-md-links/sample/sample2/mdfile2.md',
+    }]).then((data) => {
       expect(data).toEqual(arrayTest1);
     });
   });
 
-  it('Debería fallar la petición del fetch y retornar status: Failed request', () => {
-    fetch.mockImplementation(() => Promise.reject(response2));
-    return getStatusLink(arrayTest2).then((data) => {
+  it('Debería retornar las propiedades href, text, file, status y ok de un link 404', () => {
+    fetch.mockImplementation(() => Promise.resolve({
+      status: 404,
+      ok: 'fail',
+    }));
+    return getStatusLink([{
+      href: 'https://developer.mozilla.org/pruebalink',
+      text: 'Link prueba 1',
+      file: 'C:/Users/chris/OneDrive/Escritorio/LIM17-md-links/sample/sample2/mdfile2.md',
+    }]).then((data) => {
       expect(data).toEqual(arrayTest2);
+    });
+  });
+
+  it('Debería retornar las propiedades href, text, file, status y ok de un link 500', () => {
+    fetch.mockImplementation(() => Promise.resolve({
+      status: 500,
+      ok: 'fail',
+    }));
+    return getStatusLink([{
+      href: 'https://developer.mozilla.org/lalala',
+      text: 'Link prueba 1',
+      file: 'C:/Users/chris/OneDrive/Escritorio/LIM17-md-links/sample/sample2/mdfile2.md',
+    }]).then((data) => {
+      expect(data).toEqual(arrayTest3);
+    });
+  });
+
+  it('Debería fallar la petición del fetch y retornar status: Failed request', () => {
+    fetch.mockImplementation(() => Promise.reject({
+      status: 'Failed request',
+      ok: 'fail',
+    }));
+    return getStatusLink([{
+      href: 'http://community.laboratoria.la/c/js',
+      text: 'Broken',
+      file: 'C:/Users/chris/OneDrive/Escritorio/LIM17-md-links/sample/sample2/mdfile2.md',
+    }]).catch((data) => {
+      expect(data).toEqual(arrayTest4);
     });
   });
 });
@@ -181,14 +225,14 @@ describe('getStats', () => {
   const arrayTest = [{
     href: 'https://developer.mozilla.org/es/docs/Web/HTTP/Overview',
     text: 'Link prueba 1',
-    file: 'C:\\Users\\chris\\OneDrive\\Escritorio\\LIM17-md-links\\sample\\sample2\\mdfile2.md',
+    file: 'C:/Users/chris/OneDrive/Escritorio/LIM17-md-links/sample/sample2/mdfile2.md',
     status: 200,
     ok: 'ok',
   },
   {
     href: 'https://developer.mozilla.org/es/docs.hidje',
     text: 'Link prueba 2',
-    file: 'C:\\Users\\chris\\OneDrive\\Escritorio\\LIM17-md-links\\sample\\sample2\\mdfile2.md',
+    file: 'C:/Users/chris/OneDrive/Escritorio/LIM17-md-links/sample/sample2/mdfile2.md',
     status: 400,
     ok: 'fail',
   }];

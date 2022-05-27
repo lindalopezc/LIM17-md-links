@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 /* eslint-disable max-len */
 const fs = require('fs');
 const path = require('path');
@@ -48,10 +49,11 @@ const getLinks = (mdFilesArray) => {
       if (arrayWithLinks) {
         const linksOfEachFile = arrayWithLinks.map((link) => {
           const linksResolve = link.match(regExpURL).join().slice(1, -1);
-          const textResolve = link.match(regExpText).join().slice(1, -1);
+          const textResolve = link.match(regExpText).join().slice(1, -1).substring(0, 50);
+          mdFile = `.${mdFile.substring(mdFile.indexOf('\\') > 0 ? mdFile.lastIndexOf('\\') : mdFile.lastIndexOf('/'))}`;
           return {
             href: linksResolve,
-            text: textResolve,
+            text: textResolve.substring(0, 50),
             file: mdFile,
           };
         });

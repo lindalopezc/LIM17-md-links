@@ -21,10 +21,11 @@ describe('mdLinks', () => {
     status: 200,
     ok: 'ok',
   };
+
   it('Debería retornar las estadisticas Total, Unique y Broken de los links encontrados', () => {
     fetch.mockImplementation(() => Promise.resolve(response1));
     return mdLinks(pathTest1, { validate: true, stats: true }).then((result) => {
-      expect(result).toEqual('Total: 8 \nUnique: 8 \nBroken: 0');
+      expect(result).toBe('Total: 8 \nUnique: 8 \nBroken: 0');
     });
   });
 
@@ -32,7 +33,7 @@ describe('mdLinks', () => {
     fetch.mockImplementation(() => Promise.resolve(response1));
     return mdLinks(pathTest2, { validate: false, stats: true })
       .then((result) => {
-        expect(result).toEqual('Total: 3 \nUnique: 3');
+        expect(result).toBe('Total: 3 \nUnique: 3');
       });
   });
   it('Debería retornar 1 link roto', () => {
@@ -45,37 +46,37 @@ describe('mdLinks', () => {
     fetch.mockImplementation(() => Promise.resolve(response1));
     return mdLinks(pathTest3, { validate: false, stats: true })
       .then((result) => {
-        expect(result).toEqual('Total: 3 \nUnique: 3');
+        expect(result).toBe('Total: 3 \nUnique: 3');
       });
   });
   it('Debería retornar mensaje de error: No se encontró ningún link.', () => {
     return mdLinks(pathTest4, { validate: false, stats: true })
       .catch((err) => {
-        expect(err).toEqual('No se encontró ningún link.');
+        expect(err).toBe('No se encontró ningún link.');
       });
   });
   it('Debería retornar mensaje de error: La ruta ingresada no existe. Ingrese nuevamente una ruta.', () => {
     return mdLinks('cli.ruta', { validate: false, stats: true })
       .catch((err) => {
-        expect(err).toEqual('La ruta ingresada no existe. Ingrese nuevamente una ruta.');
+        expect(err).toBe('La ruta ingresada no existe. Ingrese nuevamente una ruta.');
       });
   });
   it('Debería retornar mensaje de error: No se encontró ningun archivo Markdown.', () => {
     return mdLinks(pathTest5, { validate: false, stats: true })
       .catch((err) => {
-        expect(err).toEqual('No se encontró ningun archivo Markdown.');
+        expect(err).toBe('No se encontró ningun archivo Markdown(.md)');
       });
   });
   it('Debería retornar mensaje de error: Este directorio se encuentra vacío.', () => {
     return mdLinks(emptyDirectory, { validate: false, stats: true })
       .catch((err) => {
-        expect(err).toEqual('Este directorio se encuentra vacío.');
+        expect(err).toBe('Este directorio se encuentra vacío.');
       });
   });
   it('Debería retornar mensaje de error: La ruta ingresada no contiene un archivo markdown(.md)', () => {
     return mdLinks(pathTest6, { validate: false, stats: true })
       .catch((err) => {
-        expect(err).toEqual('La ruta ingresada no contiene un archivo markdown(.md)');
+        expect(err).toBe('La ruta ingresada no contiene un archivo Markdown(.md)');
       });
   });
 });
