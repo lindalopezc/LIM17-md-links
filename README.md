@@ -35,7 +35,7 @@ Los valores de retorno son:
 
 *Ejemplo:*
 
-[md-links](https://github.com/lindalopezc/LIM17-md-links/blob/main/img/ejemplo1.png)
+![md-links](https://github.com/lindalopezc/LIM17-md-links/blob/main/img/ejemplo1.png)
 
 #### Caso 2:
 
@@ -51,7 +51,7 @@ Los valores de retorno son:
 * `ok`: Mensaje `fail` en caso de fallo u `ok` en caso de éxito.
 
 *Ejemplo:*
-[md-links](https://github.com/lindalopezc/LIM17-md-links/blob/main/img/ejemplo2.png)
+![md-links](https://github.com/lindalopezc/LIM17-md-links/blob/main/img/ejemplo2.png)
 
 #### Caso 3:
 
@@ -66,7 +66,7 @@ Los valores de retorno son:
 * `Unique`: total de links únicos.
 
 *Ejemplo:*
-[md-links](https://github.com/lindalopezc/LIM17-md-links/blob/main/img/ejemplo3.png)
+![md-links](https://github.com/lindalopezc/LIM17-md-links/blob/main/img/ejemplo3.png)
 
 #### Caso 4:
 
@@ -87,7 +87,7 @@ Los valores de retorno son:
 * `Broken`: total de links rotos.
 
 *Ejemplo:*
-[md-links](https://github.com/lindalopezc/LIM17-md-links/blob/main/img/ejemplo4.png)
+![md-links](https://github.com/lindalopezc/LIM17-md-links/blob/main/img/ejemplo4.png)
 
 ## 📍3. Proceso de desarrollo:
 
