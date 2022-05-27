@@ -100,5 +100,5 @@ Se utilizó las siguientes herramientas:
 -[chalk](https://www.npmjs.com/package/chalk/v/4.1.0)-Usado para dar estilos en la terminal.
 -[jest](https://jestjs.io/docs/api)-Testing de funcionalidad.
 
-## 📍4. Autora
-[Linda López Ramos](https://github.com/lindalopezc)💛
+## 📍 Autora:
+[Linda López Ramos](https://github.com/lindalopezc)💁🏻‍♀️
