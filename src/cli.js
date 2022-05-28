@@ -22,9 +22,7 @@ if (inputPath) {
   if (inputsArray.length === 3) {
     mdLinks(inputPath, { validate: false, stats: false })
       .then((resolve) => resolve.forEach((element) => {
-        let mdFile = element.file;
-        mdFile = `.${mdFile.substring(mdFile.indexOf('\\') > 0 ? mdFile.lastIndexOf('\\') : mdFile.lastIndexOf('/'))}`;
-        return console.log(fileColor(mdFile), urlColor(element.href), textColor(element.text));
+        return console.log(fileColor(element.file), urlColor(element.href), textColor(element.text));
       }))
       .catch((err) => console.log(warning(err)));
   } else if (inputsArray.length === 4) {
