@@ -1,6 +1,9 @@
+/* eslint-disable no-param-reassign */
 /* eslint-disable prefer-promise-reject-errors */
 /* eslint-disable max-len */
+
 const {
+  convertToAbsolute,
   checkPathExists,
   checkPathIsDirectory,
   getExtension,
@@ -14,6 +17,7 @@ const {
 
 const mdLinks = (path, options = { validate: false, stats: false }) => new Promise((resolve, reject) => {
   if (checkPathExists(path)) {
+    path = convertToAbsolute(path);
     let linksArray;
     if (checkPathIsDirectory(path)) {
       const directoryContent = readDirectory(path);

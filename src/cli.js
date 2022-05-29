@@ -1,8 +1,6 @@
 #!/usr/bin/env node
-/* eslint-disable arrow-body-style */
-/* eslint-disable max-len */
-/* eslint-disable no-dupe-else-if */
 /* eslint-disable no-console */
+
 const chalk = require('chalk');
 const { mdLinks } = require('./md-links');
 
@@ -22,14 +20,16 @@ if (inputPath) {
   if (inputsArray.length === 3) {
     mdLinks(inputPath, { validate: false, stats: false })
       .then((resolve) => resolve.forEach((element) => {
-        return console.log(fileColor(element.file), urlColor(element.href), textColor(element.text));
+        const answerCli = `${fileColor(element.file)} ${urlColor(element.href)} ${textColor(element.text)}`;
+        return console.log(answerCli);
       }))
       .catch((err) => console.log(warning(err)));
   } else if (inputsArray.length === 4) {
     if (options.includes('--validate')) {
       mdLinks(inputPath, { validate: true, stats: false })
         .then((resolve) => resolve.forEach((element) => {
-          return console.log(fileColor(element.file), urlColor(element.href), okColor(element.ok), statusColor(element.status), textColor(element.text));
+          const answerCli = `${fileColor(element.file)} ${urlColor(element.href)} ${okColor(element.ok)} ${statusColor(element.status)} ${textColor(element.text)}`;
+          return console.log(answerCli);
         }))
         .catch((err) => console.log(warning(err)));
     } else if (options.includes('--stats')) {
